@@ -31,11 +31,11 @@ for node_id, neighbors in enumerate(data["adjacency"]):
     x0, y0 = locations[node_id]
     for neighbor in neighbors:
         x1, y1 = locations[neighbor["id"]]
-        ax.plot([x0, x1], [y0, y1], color='steelblue')
+        ax.plot([x0, x1], [y0, y1], color='lightskyblue')
 
 for node_id, (x, y) in locations.items():
-    ax.scatter(x, y, color='tomato', zorder=2)
-    ax.text(x + 0.1, y + 0.05, str(node_id), ha="center", va="bottom", fontsize=7)
+    ax.scatter(x, y, color='lightcoral', zorder=2)
+    ax.text(x, y, str(node_id), ha="center", va="bottom", fontsize=10)
 
 ax.set_title("Grid visualization")
 ax.set_xlabel("x")
