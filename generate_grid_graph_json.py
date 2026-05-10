@@ -1,6 +1,15 @@
 import json
 import os
 
+"""
+Generates a json representing the dual graph of precincts in a grid. Lots of stuff
+is hardcoded, so it isn't great, but if it works it works.
+
+@author Edward Zhang
+"""
+
+# TODO: add command line interface
+
 m = 3
 n = 3
 l = 3
