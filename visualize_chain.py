@@ -7,6 +7,7 @@ import os
 import matplotlib.cm as cm
 
 # TODO: command line interface?
+# TODO: handle gzipped files
 
 fname = os.getcwd() + '/local/output/grid3x3/atlas.jsonl'
 
@@ -94,6 +95,8 @@ plt.show()
 
 to_gif = True
 to_mp4 = True
+
+# TODO: add time display
 
 if to_gif:
     ani.save("redistricting.gif", writer="pillow", fps=10)
