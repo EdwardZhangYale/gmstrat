@@ -10,9 +10,9 @@ is hardcoded, so it isn't great, but if it works it works.
 
 # TODO: add command line interface
 
-m = 2
-n = 2
-l = 2
+m = 100
+n = 100
+l = 6
 
 def node_id(x, y):
     return x * m + y
@@ -48,13 +48,13 @@ for x in range(n):
 graph = {
     "directed": False,
     "multigraph": False,
-    "graph": [],
+    "graph": {},
     "num_districts": l,
     "nodes": nodes,
     "adjacency": adjacency,
 }
 
-fname = os.getcwd() + f'/data/graph/grid_graph_{m}_by_{n}.json'
+fname = os.getcwd() + f'/data/graph/grid_graph_{m}_by_{n}_{l}.json'
 
 with open(fname, "w") as f:
     json.dump(graph, f, indent=4)
