@@ -15,7 +15,8 @@ filepath. Runs with the standard run button.
 # TODO: Change to command line interface
 # TODO: add toggle to save image instead of, or jointly with displaying
 
-fname = os.getcwd() + '/data/graph/grid_graph_5_by_5.json'
+# fname = os.getcwd() + '/data/networkx/l_grid_5x5_minus_1x2_3.json'
+fname = os.getcwd() + '/../frcw-output/5x5x5_1.jsonl'
 
 with open(fname, 'r') as f:
     data = json.load(f)
