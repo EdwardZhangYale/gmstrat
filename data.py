@@ -124,3 +124,56 @@ def generate_grid_shape(N, cell_size=1.0, *, crs="EPSG:3857"):
             precincts.append(f"({i},{j})")
 
     return gpd.GeoDataFrame({"id": ids, "precinct": precincts}, geometry=polys, crs=crs)
+
+
+# Generates a GeoDataFrame of square polygons directly from a NetworkX-formatted
+# graph JSON. This automatically handles non-rectangular grids (like L-shapes or
+# grids with holes) because it only creates polygons for nodes that actually
+# exist in the JSON.
+#
+# Parameters:
+#   json_data : Either a file path (string) to the JSON, or the loaded JSON dict
+#   cell_size : side length of each square cell in the projected CRS units
+#   crs       : coordinate reference system for the GeoDataFrame
+def generate_shape_from_json(json_data, cell_size=1.0, crs="EPSG:3857"):
+    # Load the JSON data if a filepath was provided
+    if isinstance(json_data, str):
+        with open(json_data, "r") as f:
+            data = json.load(f)
+    else:
+        data = json_data
+
+    polys = []
+    ids = []
+    precincts = []
+    populations = []
+
+    # Iterate directly over the nodes defined in the graph JSON
+    for node in data["nodes"]:
+        # Extract the grid coordinates assigned during graph generation
+        x = node["x_location"]
+        y = node["y_location"]
+
+        # Compute the corners of this cell
+        x0, y0 = x * cell_size, y * cell_size
+        x1, y1 = x0 + cell_size, y0 + cell_size
+
+        # Create the cell as a Shapely Polygon (counter-clockwise)
+        poly = Polygon([(x0, y0), (x1, y0), (x1, y1), (x0, y1)])
+        polys.append(poly)
+
+        # Map the exact IDs and attributes from the JSON
+        ids.append(node["id"])
+        precincts.append(node.get("precinct_id_str", f"({x},{y})"))
+
+        # It's usually handy to keep demographic data in the GeoDataFrame too
+        populations.append(node.get("population", 1))
+
+    # Create and return the GeoDataFrame
+    gdf = gpd.GeoDataFrame({
+        "id": ids,
+        "precinct": precincts,
+        "population": populations
+    }, geometry=polys, crs=crs)
+
+    return gdf

@@ -62,6 +62,8 @@ def generate_l_shaped_grid(m: int, n: int, cw: int, ch: int, num_districts: int,
     # 6. Export using NetworkX's built-in adjacency formatter
     data = nx.readwrite.json_graph.adjacency_data(G)
 
+    data['num_districts'] = num_districts
+
     # 7. Save to disk
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
     with open(output_file, "w") as f:
@@ -83,7 +85,7 @@ if __name__ == "__main__":
 
     fname = os.path.join(
         os.getcwd(),
-        f"data/networkx/l_grid_{args.m}x{args.n}_minus_{args.cw}x{args.ch}_{args.districts}.json"
+        f"data/networkx/l_grid_{args.m}x{args.n}_minus_{args.ch}x{args.cw}_{args.districts}.json"
     )
 
     generate_l_shaped_grid(args.m, args.n, args.cw, args.ch, args.districts, fname)
