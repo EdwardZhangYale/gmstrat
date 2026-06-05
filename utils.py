@@ -194,6 +194,7 @@ def plot_words_list(
     cluster_densities,
     word,
     *,
+    cluster_sizes=None,
     cmap="Blues",
     cols=3,
     figsize=(10, 4),
@@ -236,7 +237,12 @@ def plot_words_list(
             vmin=vmin,
             vmax=vmax,
         )
-        axes_flat[idx].set_title(f"letter {idx}: {int(centroid_id)}")
+
+        if cluster_sizes is not None:
+            n = cluster_sizes[int(centroid_id)]
+            axes_flat[idx].set_title(f"letter {idx}: {int(centroid_id)}\n(n={n})")
+        else:
+            axes_flat[idx].set_title(f"letter {idx}: {int(centroid_id)}")
 
     # Hide any empty axes in the last row of the grid
     for ax in axes_flat[n_letters:]:
