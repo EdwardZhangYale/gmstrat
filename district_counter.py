@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 # Code courtesy of Claude Sonnet 4.6
 
-fname = 'grid4x4-2'
+fname = 'grid10x10-2'
 
 
 def parse_districting(districting_list):
@@ -79,5 +79,5 @@ plt.xlabel("Isoperimetric Score")
 plt.ylabel("Number of Occurrences (log scale)")
 plt.title("District Frequency vs. Isoperimetric Score")
 plt.tight_layout()
-plt.savefig("iso_vs_count.png", dpi=150)
+# plt.savefig("iso_vs_count.png", dpi=150)
 plt.show()

@@ -312,7 +312,7 @@ class SampleProcessor:
         # Keep only the first occurrence of each unique district string
         df_districts = df_samples_expanded.drop_duplicates(subset=["district_str"])[
             ["district_str"]
-        ].reset_index(drop=True)
+        ].sort_values("district_str").reset_index(drop=True)
         # Assign a stable integer UID equal to the row index
         df_districts["district_uid"] = df_districts.index
         return df_districts

@@ -10,8 +10,8 @@ is hardcoded, so it isn't great, but if it works it works.
 
 # TODO: add command line interface
 
-m = 4
-n = 4
+m = 10
+n = 10
 l = 2
 
 def node_id(x, y):
