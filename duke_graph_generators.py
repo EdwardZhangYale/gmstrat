@@ -15,6 +15,7 @@ def generate_grid_adjacency_list(n, m):
             index = get_index(i, j)
             node_dict = {}
             node_dict['node_name'] = f"({i},{j})"
+            node_dict['precinct_id_name'] = node_dict['node_name']
             node_dict['id'] = index
 
             if i > 0:  # Connect to the node above
@@ -49,6 +50,7 @@ def generate_hexagonal_adjacency_list(rows, cols):
             index = get_index(row, col)
             node_dict = {}
             node_dict['node_name'] = f"({row},{col})"
+            node_dict['precinct_id_name'] = node_dict['node_name']
             node_dict['id'] = index
             # Even rows
             if row % 2 == 0:
@@ -102,6 +104,7 @@ def generate_triangular_adjacency_list(rows, cols):
             index = get_index(row, col)
             node_dict = {}
             node_dict['node_name'] = f"({row},{col})"
+            node_dict['precinct_id_name'] = node_dict['node_name'] # sigh
             node_dict['id'] = index
             if row > 0:  # Connect to the node above
                 adjacency_list[index].append(get_index(row - 1, col))
