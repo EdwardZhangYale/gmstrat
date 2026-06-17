@@ -15,7 +15,7 @@ filepath. Runs with the standard run button.
 # TODO: Change to command line interface
 # TODO: add toggle to save image instead of, or jointly with displaying
 
-fname = os.getcwd() + '/data/graph/hex_graph_10_by_10_2.json'
+fname = os.getcwd() + '/data/graph/regular_hex_graph_6x6x6_2.json'
 # fname = os.getcwd() + '/../frcw-output/5x5x5_1.jsonl'
 
 with open(fname, 'r') as f:

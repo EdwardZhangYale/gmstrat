@@ -268,4 +268,4 @@ def adj_list_to_json(node_info, adj_list, outPath=None, districts=2):
 
 if __name__ == '__main__':
     adj_list, node_info = generate_hexagonal_region_adjacency_list(50, 50, 50)
-    adj_list_to_json(node_info, adj_list, outPath='data/graph/regular_hex_graph_50x50x50_2.json', districts=2)
+    adj_list_to_json(node_info, adj_list, outPath='data/graph/regular_hex_graph_50x50x50_6.json', districts=6)
