@@ -241,6 +241,80 @@ def generate_hexagonal_region_adjacency_list(s1, s2, s3):
 
     return adjacency_list, node_info
 
+def generate_triangular_region_adjacency_list(n):
+    """
+    Generate the dual graph of a triangular tiling of an equilateral triangle.
+
+    Coordinate scheme:
+      - Row i (0-indexed from apex) contains (i+1) upward and i downward triangles
+      - Upward triangle:   (i, j, 'u'),  j in 0..i
+      - Downward triangle: (i, j, 'd'),  j in 0..i-1
+
+    Total cells = n^2.
+
+    Parameters
+    ----------
+    n : int
+        Side length in number of triangles.
+    """
+    cells = []
+    for i in range(n):
+        for j in range(i + 1):
+            cells.append((i, j, 'u'))
+        for j in range(i):
+            cells.append((i, j, 'd'))
+
+    cell_to_id = {cell: idx for idx, cell in enumerate(cells)}
+
+    adjacency_list = {cell_to_id[cell]: [] for cell in cells}
+    node_info = {}
+
+    for cell, index in cell_to_id.items():
+        i, j, orientation = cell
+
+        if orientation == 'u':
+            neighbours = [
+                (i,     j - 1, 'd'),   # left edge  (valid if j > 0)
+                (i,     j,     'd'),   # right edge (valid if j < i)
+                (i + 1, j,     'd'),   # bottom edge (valid if i+1 < n)
+            ]
+        else:  # 'd'
+            neighbours = [
+                (i - 1, j,     'u'),   # top edge   (always valid, i >= 1)
+                (i,     j,     'u'),   # left edge  (always valid)
+                (i,     j + 1, 'u'),   # right edge (always valid)
+            ]
+
+        for neighbour in neighbours:
+            if neighbour in cell_to_id:
+                adjacency_list[index].append(cell_to_id[neighbour])
+
+        # Cartesian centroid coordinates
+        # Row i base sits at y = (n - i - 1) * h, apex row at top
+        h = np.sqrt(3) / 2
+
+        if orientation == 'u':
+            cx = (n - i - 1) * 0.5 + j + 0.5
+            cy = (n - i - 1) * h + h / 3
+        else:
+            cx = (n - i - 1) * 0.5 + j + 1.0
+            cy = (n - i - 1) * h + 2 * h / 3
+
+        node_dict = {
+            'node_name':       f"({i},{j},{orientation})",
+            'precinct_id_str': f"({i},{j},{orientation})",
+            'id':              index,
+            'x_location':      cx,
+            'y_location':      cy,
+            'area':            1,
+            'population':      1,
+            'border_length':   3 - len(adjacency_list[index]),
+        }
+
+        node_info[index] = node_dict
+
+    return adjacency_list, node_info
+
 
 def adj_list_to_json(node_info, adj_list, outPath=None, districts=2):
     # this write the NetworkX/gerrychain json format out to disk.
@@ -267,5 +341,5 @@ def adj_list_to_json(node_info, adj_list, outPath=None, districts=2):
 
 
 if __name__ == '__main__':
-    adj_list, node_info = generate_hexagonal_region_adjacency_list(50, 50, 50)
-    adj_list_to_json(node_info, adj_list, outPath='data/graph/regular_hex_graph_50x50x50_6.json', districts=6)
+    adj_list, node_info = generate_triangular_region_adjacency_list(100)
+    adj_list_to_json(node_info, adj_list, outPath='data/graph/regular_tri_graph_100_2.json', districts=2)

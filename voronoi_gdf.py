@@ -4,7 +4,7 @@ import geopandas as gpd
 import numpy as np
 import json
 
-def node_info_to_gdf(node_info, crs=None, buffer_factor=0.5):
+def node_info_to_gdf(node_info, crs=None, buffer_factor=0.5, jitter=1e-6):
     """
     Build a GeoDataFrame from a node_info dict (as produced by the
     generate_*_adjacency_list functions) using a Voronoi diagram to
@@ -24,6 +24,15 @@ def node_info_to_gdf(node_info, crs=None, buffer_factor=0.5):
     # Build a MultiPoint from all seed locations and compute Voronoi diagram.
     # envelope=True asks Shapely to return a clipped diagram, but outer cells
     # can still be large, so we clip again to a padded bounding box below.
+    ids = sorted(node_info.keys())
+    xs = np.array([node_info[i]["x_location"] for i in ids], dtype=float)
+    ys = np.array([node_info[i]["y_location"] for i in ids], dtype=float)
+
+    # Add tiny random jitter to break collinearity (before building MultiPoint)
+    rng = np.random.default_rng(42)
+    xs = xs + rng.uniform(-jitter, jitter, xs.shape)
+    ys = ys + rng.uniform(-jitter, jitter, ys.shape)
+
     points = MultiPoint(list(zip(xs, ys)))
     regions = voronoi_diagram(points, envelope=points.envelope)
 
