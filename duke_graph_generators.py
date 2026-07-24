@@ -342,4 +342,4 @@ def adj_list_to_json(node_info, adj_list, outPath=None, districts=2):
 
 if __name__ == '__main__':
     adj_list, node_info = generate_triangular_region_adjacency_list(100)
-    adj_list_to_json(node_info, adj_list, outPath='data/graph/regular_tri_graph_100_2.json', districts=2)
+    adj_list_to_json(node_info, adj_list, outPath='data/graph/regular_tri_graph_100_7.json', districts=7)
