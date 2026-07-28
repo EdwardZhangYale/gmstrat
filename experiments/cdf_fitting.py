@@ -179,10 +179,15 @@ def fit_weighted_mixed_cdf(filename, n, m):
 
 
 if __name__ == '__main__':
-    n = 100
-    m = 50
-    num_trials = 100
-    fname = f'results/epsilons{n}x{m}-{num_trials}.txt'
+    n = 4000
+    m = 1000
+    num_trials = 1000
+    ver = 2
+    fname = None
+    if ver == 1:
+        fname = f'results/epsilons{n}x{m}-{num_trials}.txt'
+    else:
+        fname = f'results/epsilons{n}x{m}-{num_trials}_{ver}.txt'
     # input = np.loadtxt(f"results/epsilons{n}x{m}-1000.txt")
 
     df = pd.read_csv(fname, header=None)
